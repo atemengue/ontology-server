@@ -8,6 +8,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const { graphDBEndpoint } = require('./config/ConnectionProvider');
+const apiRouteConfig = require('./config/apiRoutesConfig');
 
 var app = express();
 
@@ -32,8 +33,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*'); // update to match the domain you will make the request from
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  next();
+});
+
+// SETUP ROUTE API
+apiRouteConfig(app);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
