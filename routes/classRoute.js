@@ -1,7 +1,9 @@
 /** @format */
 
-const { getAllClasses } = require('../controllers/classController');
+const { getAllClasses, getClasse } = require('../controllers/classController');
 
 module.exports = (app) => {
   app.get('/api/classes', getAllClasses);
+
+  app.get('/api/classes/:idClasse', getClasse);
 };

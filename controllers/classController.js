@@ -19,6 +19,34 @@ exports.getAllClasses = async (req, res, next) => {
           message: 'Erreur serveur',
         });
   } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      status: ' error',
+      message: `Erreur sur le serveur`,
+      errors: error,
+    });
+  }
+};
+
+exports.getClasse = async (req, res, next) => {
+  const nameClasse = req.params.nameClasse;
+
+  try {
+    let classes = await graphDBEndpoint.query(
+      `select ?label where { 
+        ?Aliment rdfs:label ?label
+        ?Aliment owl:class
+      } limit 100 
+      `,
+      { transform: 'toJSON' }
+    );
+    return classes
+      ? res.json(classes)
+      : res.status(400).send({
+          status: 'error',
+          message: 'Erreur serveur',
+        });
+  } catch (error) {
     return res.status(500).send({
       status: 'error',
       message: `Erreur sur le serveur`,
@@ -26,8 +54,6 @@ exports.getAllClasses = async (req, res, next) => {
     });
   }
 };
-
-exports.getClasse = async = (req, res, next) => {};
 
 exports.addClasse = async = (req, res, next) => {};
 
