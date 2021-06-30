@@ -5,7 +5,7 @@ const ConfigApiRoutes = (app) => {
   require('../routes/users')(app);
   require('../routes/classRoute')(app);
   require('../routes/AlimentRoute')(app);
-  require('../routes/searchRoute')(app);
+  require('../routes/explore')(app);
 };
 
 module.exports = ConfigApiRoutes;

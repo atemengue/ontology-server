@@ -237,3 +237,30 @@ ab:email "cindym@gmail.com" .
 d:i8301 ab:firstName "Craig" ;
 ab:lastName "Ellis" ;
 ab:email "c.ellis@usairwaysgroup.com" .
+
+# REQUETES SPARQL
+
+# 1
+
+SELECT ?class ?label
+WHERE {
+?class rdf:type owl:Class ;
+rdfs:label ?label .
+FILTER ( lang(?label) = "fr" )
+}
+
+#
+
+SELECT \*
+WHERE {
+food:tomato ?link ?subject .
+OPTIONAL {
+?subject rdfs:label ?label.
+}
+OPTIONAL {
+?link rdfs:label $linkLabel
+}
+filter ( !bound(?label) || lang(?label) = 'fr' )
+filter ( !bound(?linkLabel) || lang(?linkLabel) = 'fr' )
+filter (isLiteral(?subject) || isLiteral(?label))
+}
