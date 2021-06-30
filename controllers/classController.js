@@ -7,9 +7,12 @@ exports.getAllClasses = async (req, res, next) => {
     let classes = await graphDBEndpoint.query(
       `SELECT ?class ?label
       WHERE { 
-        ?class rdf:type owl:Class .
-        ?class rdfs:label ?label
-}`,
+        ?class rdf:type owl:Class ;
+        	rdfs:label ?label .
+    	FILTER (lang(?label) = "fr")}
+      ORDER BY ?label
+
+`,
       { transform: 'toJSON' }
     );
     return classes
@@ -19,7 +22,6 @@ exports.getAllClasses = async (req, res, next) => {
           message: 'Erreur serveur',
         });
   } catch (error) {
-    console.log(error);
     return res.status(500).send({
       status: ' error',
       message: `Erreur sur le serveur`,
@@ -30,13 +32,26 @@ exports.getAllClasses = async (req, res, next) => {
 
 exports.getClasse = async (req, res, next) => {
   const nameClasse = req.params.nameClasse;
-
   try {
     let classes = await graphDBEndpoint.query(
-      `select ?label where { 
-        ?Aliment rdfs:label ?label
-        ?Aliment owl:class
-      } limit 100 
+      `SELECT ?link ?uri ?label ?comment ?labelENG
+      WHERE {
+          ?uri rdf:type food:${nameClasse} ;
+
+         
+
+          OPTIONAL {
+            ?uri rdfs:label ?label 
+                  FILTER (lang(?label) = "fr") .
+          }
+          OPTIONAL {
+                ?uri rdfs:comment ?comment .
+          }
+          OPTIONAL {
+                ?uri rdfs:label ?labelENG  
+                      FILTER (lang(?labelENG) = "en")
+          }
+      }
       `,
       { transform: 'toJSON' }
     );
