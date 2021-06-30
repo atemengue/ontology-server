@@ -5,16 +5,13 @@ const { graphDBEndpoint } = require('../config/ConnectionProvider');
 exports.getAliments = async (req, res, next) => {
   try {
     let aliments = await graphDBEndpoint.query(
-      `SELECT ?aliment ?label ?comment
-      
+      `SELECT ?aliment ?label
       WHERE {
           ?aliment rdf:type food:Aliment .
           OPTIONAL { 
             ?aliment rdfs:label ?label .
           }
-      } 
-      
-      `,
+      }`,
       { tranform: 'toJSON' }
     );
 
