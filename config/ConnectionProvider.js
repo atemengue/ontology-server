@@ -20,7 +20,7 @@ let graphDBEndpoint = new EnapsoGraphDBClient.Endpoint({
   baseURL: process.env.GRAPHDB_BASE_URL,
   repository: process.env.GRAPHDB_REPOSITORY,
   prefixes: DEFAULT_PREFIXES,
-  transform: 'toCSV',
+  transform: 'JSON',
 });
 
 module.exports = { graphDBEndpoint };

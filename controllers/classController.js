@@ -5,18 +5,29 @@ const { graphDBEndpoint } = require('../config/ConnectionProvider');
 exports.getAllClasses = async (req, res, next) => {
   try {
     let classes = await graphDBEndpoint.query(
-      `SELECT ?class ?label
+      `SELECT ?class ?label ?value
       WHERE { 
         ?class rdf:type owl:Class ;
         	rdfs:label ?label .
-    	FILTER (lang(?label) = "fr")}
+
+          OPTIONAL {
+            ?class rdfs:label ?value .
+          }
+
+    	FILTER (lang(?label) = "fr") .
+    	FILTER (lang(?value) = "fr")
+    
+    }
+
       ORDER BY ?label
 
 `,
       { transform: 'toJSON' }
     );
     return classes
-      ? res.json(classes)
+      ? setTimeout(() => {
+          res.json(classes);
+        }, 2000)
       : res.status(400).send({
           status: 'error',
           message: 'Erreur serveur',
@@ -57,10 +68,12 @@ exports.getClasse = async (req, res, next) => {
     );
     return classes
       ? res.json(classes)
-      : res.status(400).send({
-          status: 'error',
-          message: 'Erreur serveur',
-        });
+      : setTimeout(() => {
+          res.status(200).send({
+            status: 'error',
+            message: 'Erreur serveur',
+          });
+        }, 3000);
   } catch (error) {
     return res.status(500).send({
       status: 'error',

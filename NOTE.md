@@ -264,3 +264,5 @@ filter ( !bound(?label) || lang(?label) = 'fr' )
 filter ( !bound(?linkLabel) || lang(?linkLabel) = 'fr' )
 filter (isLiteral(?subject) || isLiteral(?label))
 }
+
+VOIR LA REQUETE
