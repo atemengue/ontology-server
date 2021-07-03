@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@innotrade/enapso-graphdb-client": "^1.8.3",
+    "bcrypt": "^5.0.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
@@ -16,6 +17,7 @@
     "lodash.omit": "^4.5.0",
     "morgan": "~1.9.1",
     "nodemon": "^2.0.7",
+    "pg": "^8.6.0",
     "solr-node": "^1.2.1"
   }
 }
