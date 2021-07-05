@@ -79,7 +79,9 @@ exports.explore = async (req, res, next) => {
     let newData = normalizeSparqlResults(data.records);
 
     return data
-      ? res.json(newData)
+      ? setTimeout(() => {
+          res.json(newData);
+        }, 1000)
       : res.status(400).send({
           status: 'error',
           message: 'Erreur serveur',

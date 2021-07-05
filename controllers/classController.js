@@ -45,7 +45,7 @@ exports.getClasse = async (req, res, next) => {
   const nameClasse = req.params.nameClasse;
   try {
     let classes = await graphDBEndpoint.query(
-      `SELECT ?link ?uri ?label ?comment ?labelENG
+      `SELECT ?link ?uri ?label ?comment ?labelENG ?value
       WHERE {
           ?uri rdf:type food:${nameClasse} ;
 
@@ -62,6 +62,13 @@ exports.getClasse = async (req, res, next) => {
                 ?uri rdfs:label ?labelENG  
                       FILTER (lang(?labelENG) = "en")
           }
+
+          OPTIONAL {
+            ?uri rdfs:label ?value
+                  FILTER (lang(?value) = "fr") .
+          }
+
+          
       }
       `,
       { transform: 'toJSON' }
