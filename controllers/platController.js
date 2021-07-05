@@ -7,7 +7,6 @@ const setApport = (substances) => {
 };
 
 exports.addPlat = async (req, res, next) => {
-  console.log(req.body);
   const { name, labelFR, labelEN, comment, regions, alimentPlats } = req.body;
 
   let _aliments = setApport(alimentPlats);
@@ -30,6 +29,42 @@ exports.addPlat = async (req, res, next) => {
 
     return aliment
       ? res.json(aliment)
+      : res.status(400).send({
+          status: 'error',
+          message: 'Erreur serveur',
+        });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      status: 'error',
+      message: `Erreur sur le serveur`,
+      errors: error,
+    });
+  }
+};
+
+exports.chefRecommendation = async (req, res, next) => {
+  const { regions } = req.body;
+  let _regions = setApport(regions);
+
+  try {
+    let plats = await graphDBEndpoint.query(
+      `
+      SELECT *
+      WHERE { 
+            ?uriRepas ?predicat ?uriRegion .
+              ?uriRegion rdfs:label ?labelRegion.
+              ?predicat rdfs:label ?labelPredicat.
+              ?uriRepas rdfs:label ?labelRepas.
+          FILTER (?uriRegion IN (${_regions}))
+      }
+            
+      `,
+      { transform: 'toJSON' }
+    );
+
+    return plats
+      ? res.json(plats)
       : res.status(400).send({
           status: 'error',
           message: 'Erreur serveur',
