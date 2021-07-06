@@ -10,6 +10,7 @@ const ConfigApiRoutes = (app) => {
   require('../routes/statistiqueRoute')(app);
   require('../routes/userRoute')(app);
   require('../routes/platRoute')(app);
+  require('../routes/maladieRoute')(app);
 };
 
 module.exports = ConfigApiRoutes;

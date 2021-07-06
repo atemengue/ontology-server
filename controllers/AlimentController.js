@@ -30,9 +30,7 @@ exports.getAliments = async (req, res, next) => {
       { transform: 'toJSON' }
     );
     return aliments
-      ? setTimeout(() => {
-          res.json(aliments);
-        }, 2000)
+      ? res.json(aliments)
       : res.status(400).send({
           status: 'error',
           message: 'Erreur serveur',

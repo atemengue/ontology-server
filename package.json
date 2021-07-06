@@ -16,6 +16,7 @@
     "jade": "~1.11.0",
     "lodash.groupby": "^4.6.0",
     "lodash.omit": "^4.5.0",
+    "lodash.remove": "^4.7.0",
     "morgan": "~1.9.1",
     "nodemon": "^2.0.7",
     "pg": "^8.6.0",

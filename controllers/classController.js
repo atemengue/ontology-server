@@ -25,9 +25,7 @@ exports.getAllClasses = async (req, res, next) => {
       { transform: 'toJSON' }
     );
     return classes
-      ? setTimeout(() => {
-          res.json(classes);
-        }, 2000)
+      ? res.json(classes)
       : res.status(400).send({
           status: 'error',
           message: 'Erreur serveur',
@@ -75,12 +73,10 @@ exports.getClasse = async (req, res, next) => {
     );
     return classes
       ? res.json(classes)
-      : setTimeout(() => {
-          res.status(200).send({
-            status: 'error',
-            message: 'Erreur serveur',
-          });
-        }, 3000);
+      : res.status(200).send({
+          status: 'error',
+          message: 'Erreur serveur',
+        });
   } catch (error) {
     return res.status(500).send({
       status: 'error',

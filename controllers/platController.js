@@ -25,8 +25,6 @@ exports.addPlat = async (req, res, next) => {
       { tranform: 'toJSON' }
     );
 
-    console.log(aliment);
-
     return aliment
       ? res.json(aliment)
       : res.status(400).send({
